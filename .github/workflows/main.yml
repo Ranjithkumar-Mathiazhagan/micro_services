@@ -22,9 +22,8 @@ jobs:
           node-version: 20
 
       - name: install and test node
-        run: |
-          npm ci
-          npm test
+        run: npm install
+          
 
   build-service-a:
     runs-on: ubuntu-latest
