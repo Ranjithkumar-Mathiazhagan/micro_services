@@ -1,0 +1,69 @@
+services:
+ python_service:
+  build : ./service_a
+  ports : 
+   - "5000:5000"
+  depends_on : 
+   - mongo_service
+  networks :
+   - my-mircro-app-network
+ 
+ mongo_service :
+  
+  image: mongo:8
+  environment:
+    MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+
+  ports:
+   - "27017:27017"
+  networks :
+   - my-mircro-app-network
+  volumes:
+    - mongo_data:/data/db
+  healthcheck:
+   test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+   interval : "5s"
+   timeout: "5s"
+   retries : 3
+
+  
+ node_service: 
+  build : ./service_b
+  ports : 
+   -"4000:4000"
+  depends_on :
+   - mysql_service
+  networks :
+   - my-mircro-app-network
+
+ mysql_service:
+  
+  image: mysql:8.4
+  environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  volumes:
+      - mysql_data:/var/lib/mysql
+  ports : 
+   - "3306:3306"
+  healthcheck:
+   
+   test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+   interval : "5s"
+   timeout: "5s"
+   retries : 3
+  networks :
+   - my-mircro-app-network
+
+volumes :
+  mysql_data :
+  mongo_data :
+
+networks:
+   my-mircro-app-network
+ 
+  
+   
