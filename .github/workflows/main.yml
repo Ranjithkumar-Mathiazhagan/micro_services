@@ -40,7 +40,7 @@ build-service-a:
         docker build -t ${{ secrets.DOCKER_USERNAME }}/service-a:latest ./service_a
         docker push ${{ secrets.DOCKER_USERNAME }}/service-a:latest
 
-  build-service_b:
+ build-service_b:
    runs-on: ubuntu-latest
    needs: setup
    steps:
