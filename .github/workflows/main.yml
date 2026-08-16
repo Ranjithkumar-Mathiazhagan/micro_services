@@ -22,7 +22,10 @@ jobs:
           node-version: 20
 
       - name: install and test node
-        run: npm install
+        working-directory: ./service_b
+        run: |
+         npm install
+         npm test
           
 
   build-service-a:
