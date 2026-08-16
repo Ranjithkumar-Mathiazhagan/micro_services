@@ -1,5 +1,5 @@
 name: micro_services_pipeline
-on: push
+on: workflow_dispatch
 
 jobs:
   setup:
