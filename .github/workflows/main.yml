@@ -10,7 +10,7 @@ jobs:
    - name : install dependencies for python
      uses : actions/setup-python@v5
      with :
-     python-version : "3.12"
+      python-version : "3.12"
    - name : install 
      run : pip install pytest
 
